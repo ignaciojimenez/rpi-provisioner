@@ -1,5 +1,5 @@
 # Sensitive configuration files
-configs/hosts.yml
+hosts.yml
 
 # Cache directory (downloaded images)
 cache/

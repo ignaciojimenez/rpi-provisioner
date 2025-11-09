@@ -20,7 +20,7 @@ NC='\033[0m'
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CACHE_DIR="${SCRIPT_DIR}/cache"
-CONFIG_FILE="${SCRIPT_DIR}/configs/hosts.yml"
+CONFIG_FILE="${SCRIPT_DIR}/hosts.yml"
 TEMP_DIR="/tmp/raspberrypi_provision_$$"
 LOG_FILE="/tmp/provision_pi_$(date +%Y%m%d_%H%M%S).log"
 
@@ -59,8 +59,8 @@ Image Sources:
   <url>          Direct URL to an image file
 
 Hostnames:
-  Use any custom hostname, or use a predefined preset from configs/hosts.yml
-  See configs/hosts.yml for preset configurations and to add your own
+  Use any custom hostname, or use a predefined preset from hosts.yml
+  See hosts.yml for preset configurations and to add your own
 
 Options:
   --wifi-ssid <ssid>      WiFi network name
