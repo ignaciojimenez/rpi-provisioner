@@ -8,7 +8,7 @@ Flash and configure Raspberry Pi SD cards in one command. Download the latest OS
 ./provision_pi <image> <hostname> [options]
 
 # Create your config file (optional - for defaults and presets)
-cp configs/hosts.yml.sample configs/hosts.yml
+cp hosts.yml.sample hosts.yml
 # Edit with your WiFi credentials, GitHub username, etc.
 ```
 
@@ -35,13 +35,13 @@ cp configs/hosts.yml.sample configs/hosts.yml
 # Wired-only Pi (no WiFi)
 ./provision_pi raspbian mypi --no-wifi --github myusername
 
-# Use a preset from configs/hosts.yml (automatically applies settings)
+# Use a preset from hosts.yml (automatically applies settings)
 ./provision_pi raspbian mypi
 ```
 
 ## Host Presets
 
-Set up default configurations in `configs/hosts.yml`:
+Set up default configurations in `hosts.yml`:
 
 ```yaml
 defaults:
