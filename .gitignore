@@ -1,5 +1,7 @@
 # Sensitive configuration files
-hosts.yml
+# hosts.yml is now COMMITTED on purpose — it holds presets, which are worth
+# version history and are not sensitive. Secrets live beside it:
+hosts.secrets.yml
 
 # Cache directory (downloaded images)
 cache/

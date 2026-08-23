@@ -8,7 +8,7 @@ Flash and configure Raspberry Pi SD cards in one command. Download the latest OS
 ./provision_pi <image> <hostname> [options]
 
 # Create your config file (optional - for defaults and presets)
-cp configs/hosts.yml.sample configs/hosts.yml
+cp hosts.yml.sample hosts.yml
 # Edit with your WiFi credentials, GitHub username, etc.
 ```
 
@@ -35,13 +35,30 @@ cp configs/hosts.yml.sample configs/hosts.yml
 # Wired-only Pi (no WiFi)
 ./provision_pi raspbian mypi --no-wifi --github myusername
 
-# Use a preset from configs/hosts.yml (automatically applies settings)
+# Use a preset from hosts.yml (automatically applies settings)
 ./provision_pi raspbian mypi
 ```
 
+## Configuration: two files
+
+`hosts.yml` is **committed** — it holds the presets, which are worth version
+history and are not sensitive. `hosts.secrets.yml` is **gitignored** and holds
+the values that would be published if they lived in the tracked file:
+
+```bash
+cp hosts.secrets.yml.sample hosts.secrets.yml   # then fill it in
+```
+
+Any key in `hosts.secrets.yml` overrides the same key in `hosts.yml`'s
+`defaults:` block. The secrets file is optional — without it the tool still runs,
+presets and all; you just get no WiFi credentials or default password.
+
+⚠️ **Back up `hosts.secrets.yml` out of band.** It is the one file a fresh laptop
+cannot rebuild from the repo.
+
 ## Host Presets
 
-Set up default configurations in `configs/hosts.yml`:
+Set up default configurations in `hosts.yml`:
 
 ```yaml
 defaults:

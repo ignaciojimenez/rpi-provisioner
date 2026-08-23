@@ -21,6 +21,10 @@ NC='\033[0m'
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CACHE_DIR="${SCRIPT_DIR}/cache"
 CONFIG_FILE="${SCRIPT_DIR}/hosts.yml"
+# Secrets live beside the config, not in it, so hosts.yml (presets — the part
+# worth version history) can be committed while passwords stay local.
+# Optional: without it, put everything in hosts.yml and keep that gitignored.
+SECRETS_FILE="${SCRIPT_DIR}/hosts.secrets.yml"
 TEMP_DIR="/tmp/raspberrypi_provision_$$"
 LOG_FILE="/tmp/provision_pi_$(date +%Y%m%d_%H%M%S).log"
 
@@ -955,9 +959,18 @@ main() {
     local defaults_content=""
     if [[ -f "$CONFIG_FILE" ]]; then
         defaults_content=$(grep -A 20 "^defaults:" "$CONFIG_FILE" | tail -n +2 || true)
-        if [[ -n "$defaults_content" ]]; then
-            export DEFAULTS_CONTENT="$defaults_content"
+    fi
+    # Secrets are prepended, not appended: get_config_value takes the FIRST
+    # match, so anything defined in hosts.secrets.yml wins over hosts.yml.
+    if [[ -f "$SECRETS_FILE" ]]; then
+        local secrets_content
+        secrets_content=$(grep -A 20 "^defaults:" "$SECRETS_FILE" | tail -n +2 || true)
+        if [[ -n "$secrets_content" ]]; then
+            defaults_content="${secrets_content}"$'\n'"${defaults_content}"
         fi
+    fi
+    if [[ -n "$defaults_content" ]]; then
+        export DEFAULTS_CONTENT="$defaults_content"
     fi
     
     # Try to load preset configuration for this hostname
