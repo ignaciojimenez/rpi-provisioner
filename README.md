@@ -39,6 +39,23 @@ cp hosts.yml.sample hosts.yml
 ./provision_pi raspbian mypi
 ```
 
+## Configuration: two files
+
+`hosts.yml` is **committed** — it holds the presets, which are worth version
+history and are not sensitive. `hosts.secrets.yml` is **gitignored** and holds
+the values that would be published if they lived in the tracked file:
+
+```bash
+cp hosts.secrets.yml.sample hosts.secrets.yml   # then fill it in
+```
+
+Any key in `hosts.secrets.yml` overrides the same key in `hosts.yml`'s
+`defaults:` block. The secrets file is optional — without it the tool still runs,
+presets and all; you just get no WiFi credentials or default password.
+
+⚠️ **Back up `hosts.secrets.yml` out of band.** It is the one file a fresh laptop
+cannot rebuild from the repo.
+
 ## Host Presets
 
 Set up default configurations in `hosts.yml`:
